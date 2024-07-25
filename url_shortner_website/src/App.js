@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import axios from 'axios'
 
 function App() {
+  const [url, setUrl] = React.useState(null)
+  const [shortedUrl, setShortedurl] = React.useState("")
+
+  async function fetchUrl(){
+    const response = await axios.get(`https://url-shortener-api-zeta.vercel.app/${url}`)
+    setShortedurl(response.data.url)
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <p>{shortedUrl}</p>
+      <input type="text" onChange={(e)=> setUrl(e.target.value)}/>
+      <button onClick={fetchUrl}>Short Url</button>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
